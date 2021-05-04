@@ -28,10 +28,10 @@ else:
 row_list = response.json() 
 colnames = row_list[0]
 datarows = row_list[1:]
-#%%
+#don't think I'm calculating what I want to
 percent_white = pd.DataFrame(columns = colnames, data = datarows)
-earnings['GEOID'] = earnings['state'] + earnings['county'] 
-percent_white["median"] = percent_white["C02003_003E"].astype(float)
+percent_white['GEOID'] = percent_white['state'] + percent_white['zip code tabulation area'] 
+percent_white["percent"] = percent_white["C02003_003E"].astype(float)/1000
 percent_white.to_csv('percent_white.csv', index=False)
 
 #%%
