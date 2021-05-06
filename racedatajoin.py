@@ -7,36 +7,65 @@ Created on Thu May  6 14:00:39 2021
 
 import pandas as pd
 
-CDpercentwhite2012 = pd.read_csv('CDpercentwhite2012.csv')
-CDpercentwhite2013 = pd.read_csv('CDpercentwhite2013.csv')
-CDpercentwhite2014 = pd.read_csv('CDpercentwhite2014.csv')
-CDpercentwhite2015 = pd.read_csv('CDpercentwhite2015.csv')
-CDpercentwhite2016 = pd.read_csv('CDpercentwhite2016.csv')
-CDpercentwhite2017 = pd.read_csv('CDpercentwhite2017.csv')
-CDpercentwhite2018 = pd.read_csv('CDpercentwhite2018.csv')
-CDpercentwhite2019 = pd.read_csv('CDpercentwhite2019.csv')
+dtype_CD = {'congressional district':str}
 
-#set index?
-#white2012.set_index('congressional district')
+CDpercentwhite2012 = pd.read_csv('CDpercentwhite2012.csv', dtype=dtype_CD)
+CDpercentwhite2013 = pd.read_csv('CDpercentwhite2013.csv', dtype=dtype_CD)
+CDpercentwhite2014 = pd.read_csv('CDpercentwhite2014.csv', dtype=dtype_CD)
+CDpercentwhite2015 = pd.read_csv('CDpercentwhite2015.csv', dtype=dtype_CD)
+CDpercentwhite2016 = pd.read_csv('CDpercentwhite2016.csv', dtype=dtype_CD)
+CDpercentwhite2017 = pd.read_csv('CDpercentwhite2017.csv', dtype=dtype_CD)
+CDpercentwhite2018 = pd.read_csv('CDpercentwhite2018.csv', dtype=dtype_CD)
+CDpercentwhite2019 = pd.read_csv('CDpercentwhite2019.csv', dtype=dtype_CD)
 
-# Add percent of population that was white in the congressional districts in each year
-CDpercentwhite2012['white2013'] = CDpercentwhite2013['percent_white']
-CDpercentwhite2012['white2014'] = CDpercentwhite2014['percent_white']
-CDpercentwhite2012['white2015'] = CDpercentwhite2015['percent_white']
-CDpercentwhite2012['white2016'] = CDpercentwhite2016['percent_white']
-CDpercentwhite2012['white2017'] = CDpercentwhite2017['percent_white']
-CDpercentwhite2012['white2018'] = CDpercentwhite2018['percent_white']
-CDpercentwhite2012['white2019'] = CDpercentwhite2019['percent_white']
+CDpercentwhite2012.set_index('congressional district', inplace=True)
+CDpercentwhite2013.set_index('congressional district', inplace=True)
+CDpercentwhite2014.set_index('congressional district', inplace=True)
+CDpercentwhite2015.set_index('congressional district', inplace=True)
+CDpercentwhite2016.set_index('congressional district', inplace=True)
+CDpercentwhite2017.set_index('congressional district', inplace=True)
+CDpercentwhite2018.set_index('congressional district', inplace=True)
+CDpercentwhite2019.set_index('congressional district', inplace=True)
 
-#drop other columns?
+# Create dataframe with percentages of population that were white in the 
+# congressional districts in each year.
+
+white = pd.DataFrame()
+white['2012'] = CDpercentwhite2012['percent_white']
+white['2013'] = CDpercentwhite2013['percent_white']
+white['2014'] = CDpercentwhite2014['percent_white']
+white['2015'] = CDpercentwhite2015['percent_white']
+white['2016'] = CDpercentwhite2016['percent_white']
+white['2017'] = CDpercentwhite2017['percent_white']
+white['2018'] = CDpercentwhite2018['percent_white']
+white['2019'] = CDpercentwhite2019['percent_white']
+
+white = white.stack()
+white = white.reset_index()
+white.columns = ['cd','year','w%']
+
+
+#save to csv
+
+#CDpercentwhite2012['white2014'] = CDpercentwhite2014['percent_white']
+#CDpercentwhite2012['white2015'] = CDpercentwhite2015['percent_white']
+#CDpercentwhite2012['white2016'] = CDpercentwhite2016['percent_white']
+#CDpercentwhite2012['white2017'] = CDpercentwhite2017['percent_white']
+#CDpercentwhite2012['white2018'] = CDpercentwhite2018['percent_white']
+#CDpercentwhite2012['white2019'] = CDpercentwhite2019['percent_white']
+
+#drop other columns? 
+#which congressional districts do I want to select?
 
 #%%
 
 import matplotlib.pyplot as plt
+import seaborn as sns
 
-fig, ax1 = plt.subplots()
-fig.suptitle("Percent of Population that is White in Texas Congressional Districts")
-ax1.set_xlabel("Year")
-ax1.set_ylabel("White Percent of Population")
+fig, ax = plt.subplots()
+sns.lineplot(x = "year", y = "w%", data=white, hue='cd', ax=ax)
+fig.suptitle("Percent of Population that is White in Texas Congressional Districts from 2012-2019")
+ax.set_xlabel("Year")
+ax.set_ylabel("Percent of Population that is White Only")
 fig.tight_layout()
 fig.savefig("CDpercentwhite.png", dpi=300)

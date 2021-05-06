@@ -32,3 +32,13 @@ pct_by_bin[bars].plot.bar(ax=ax1)
 
 #%%
 
+pop = pd.DataFrame(columns = colnames, data = datarows)
+
+new_names = pop.rename( {"B01001_001E":"pop", "zip code tabulation area":"zip"}, axis='columns')
+
+new_names = new_names.set_index("zip")
+new_names.to_csv("pop.csv")
+
+percent_white = percent_white.set_index("congressional district")
+#%%
+trim = trim.drop("_merge", axis='columns') 
