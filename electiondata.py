@@ -19,11 +19,16 @@ TXelections12_18_DR = TXelections12_18.query("party == 'DEMOCRAT' or party == 'R
 
 specificTXCDs = TXelections12_18_DR.query("district == '3' or district == '31' or district == '8' or district == '26' or district == '21' or district == '35' or district == '15' or district == '29' or district == '34' or district == '33'")
 
-
-#specificTXCDs.set_index('district', inplace=True)
-
+#need more analytical way to determine districts to analyze? bc rn just random
 
 #%%
+#specificTXCDs.set_index('district', inplace=True) ?
+
+
+#%%  #this isn't specific to just the republican percents just yet
+#don't know how to deal with only DEM or only REP candidate available for election
+#do I need to eliminate them from data frame before plotting
+
 rep = pd.DataFrame()
 rep['2012'] = specificTXCDs['candidatevotes']/specificTXCDs['totalvotes']*100
 rep['2014'] = specificTXCDs['candidatevotes']/specificTXCDs['totalvotes']*100
@@ -47,7 +52,5 @@ fig.tight_layout()
 fig.savefig("CDpercentrepublican.png", dpi=300)
 
 
-#don't know how to deal with only DEM or only REP candidate available for election
-#do I need to eliminate them from data frame before plotting
 
 #I don't know what to do after I have both %w and %r plotted
