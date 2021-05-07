@@ -28,12 +28,22 @@ CDrep['year'] = specificTXCDs['year']
 CDrep['district'] = specificTXCDs['district']
 CDrep['party'] = specificTXCDs['party']
 CDrep['candidatevotes'] = specificTXCDs['candidatevotes']
-CDrep['totalvotes'] = specificTXCDs['totalvotes']
-CDrep['percent'] = specificTXCDs['candidatevotes']/specificTXCDs['totalvotes']*100
-CDrep = CDrep.set_index('year','district','party')
+
+CDrep = CDrep.set_index(['year','district','party'])
 CDrep = CDrep.unstack() 
 CDrep.fillna(0, inplace=True)
+CDrep = CDrep['candidatevotes']
+
+CDrep['totalvotes'] = CDrep.sum(axis='columns')
+
+CDrep['REPpercent'] = 100 * CDrep['REPUBLICAN'] / CDrep['totalvotes']
+CDrep['DEMpercent'] = 100*CDrep['DEMOCRAT']/ CDrep['totalvotes']
+
+CDrep['electedrep'] = CDrep['REPUBLICAN'] > CDrep['DEMOCRAT']
+
+#margin of victory; build lil dataframe CDrep drop where REP = 0 and where DEM = 0
 #CDrep.dropna() ??
+CDrep query (rep greater than 0 and vice versa)
 
 #year district party candidatevotes columns
 #set index to year district and party
