@@ -17,15 +17,41 @@ TXelections12_18 = election12_18.query("state == 'TEXAS'")
 
 TXelections12_18_DR = TXelections12_18.query("party == 'DEMOCRAT' or party == 'REPUBLICAN'")
 
-specificTXCDs = TXelections12_18_DR.query("district == '3' or district == '31' or district == '8' or district == '26' or district == '21' or district == '35' or district == '15' or district == '29' or district == '34' or district == '33'")
+districts = ['3','26','33','31','35','27','8','29']
+in_districts = TXelections12_18_DR['district'].isin(districts)
 
-#need more analytical way to determine districts to analyze? bc rn just random
+specificTXCDs = TXelections12_18_DR[in_districts]
+
+#need more analytical way to determine districts to analyze?? bc rn just random. can just do case study
+CDrep = pd.DataFrame()
+CDrep['year'] = specificTXCDs['year']
+CDrep['district'] = specificTXCDs['district']
+CDrep['party'] = specificTXCDs['party']
+CDrep['candidatevotes'] = specificTXCDs['candidatevotes']
+CDrep['totalvotes'] = specificTXCDs['totalvotes']
+CDrep['percent'] = specificTXCDs['candidatevotes']/specificTXCDs['totalvotes']*100
+CDrep = CDrep.set_index('year','district','party')
+CDrep = CDrep.unstack() 
+CDrep.fillna(0, inplace=True)
+#CDrep.dropna() ??
+
+#year district party candidatevotes columns
+#set index to year district and party
+#unstack
+#fillna (victory margin, tell who won, tell who was uncontested)
+#take data frame and drop uncontested elections
+#y = x.fillna 0
+#dropna
+
+contested_vs_uncontested = specificTXCDs.groupby(['year','district']).size()
+
+#%%  
+
+contested_vs_uncontested['rep2012'] = specificTXCDs['candidatevotes']/specificTXCDs['totalvotes']*100
+#FIX !!
 
 #%%
-#specificTXCDs.set_index('district', inplace=True) ?
-
-
-#%%  #this isn't specific to just the republican percents just yet
+#this isn't specific to just the republican percents just yet
 #don't know how to deal with only DEM or only REP candidate available for election
 #do I need to eliminate them from data frame before plotting
 
@@ -37,14 +63,14 @@ rep['2018'] = specificTXCDs['candidatevotes']/specificTXCDs['totalvotes']*100
 
 rep = rep.stack()
 rep = rep.reset_index()
-rep.columns = ['cd','year','w%']
+rep.columns = ['cd','year','%rep']
 
 #%%
 import matplotlib.pyplot as plt
 import seaborn as sns
 
 fig, ax = plt.subplots()
-sns.lineplot(x = "year", y = "%R", data=rep, hue='cd', ax=ax)
+sns.lineplot(x = "year", y = "%rep", data=rep, hue='cd', ax=ax)
 fig.suptitle("Percent of Votes for Republican Congressional Candidates in Texas Congressional Districts from 2012-2018")
 ax.set_xlabel("Year")
 ax.set_ylabel("Percent of Votes for Republican Congressional Candidates")
@@ -52,5 +78,5 @@ fig.tight_layout()
 fig.savefig("CDpercentrepublican.png", dpi=300)
 
 
-
+#shorten title or get them formatted differently.
 #I don't know what to do after I have both %w and %r plotted

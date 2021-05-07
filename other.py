@@ -4,7 +4,8 @@ Created on Thu May  6 15:13:49 2021
 
 @author: austi
 """
-
+#%%
+#specificTXCDs.set_index('district', inplace=True) ??
 
 #%%
 cd = {'congressional district':str}
