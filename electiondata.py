@@ -22,6 +22,7 @@ in_districts = TXelections12_18_DR['district'].isin(districts)
 
 specificTXCDs = TXelections12_18_DR[in_districts]
 
+#%%
 #need more analytical way to determine districts to analyze?? bc rn just random. can just do case study
 CDrep = pd.DataFrame()
 CDrep['year'] = specificTXCDs['year']
@@ -35,29 +36,26 @@ CDrep.fillna(0, inplace=True)
 CDrep = CDrep['candidatevotes']
 
 CDrep['totalvotes'] = CDrep.sum(axis='columns')
-
 CDrep['REPpercent'] = 100 * CDrep['REPUBLICAN'] / CDrep['totalvotes']
-CDrep['DEMpercent'] = 100*CDrep['DEMOCRAT']/ CDrep['totalvotes']
+CDrep['DEMpercent'] = 100 * CDrep['DEMOCRAT']/ CDrep['totalvotes']
 
-CDrep['electedrep'] = CDrep['REPUBLICAN'] > CDrep['DEMOCRAT']
+CDrep['electedREP'] = CDrep['REPUBLICAN'] > CDrep['DEMOCRAT']
+
+#%%
 
 #margin of victory; build lil dataframe CDrep drop where REP = 0 and where DEM = 0
 #CDrep.dropna() ??
-CDrep query (rep greater than 0 and vice versa)
+#CDrep query (rep greater than 0 and vice versa)
 
-#year district party candidatevotes columns
-#set index to year district and party
-#unstack
+
 #fillna (victory margin, tell who won, tell who was uncontested)
 #take data frame and drop uncontested elections
 #y = x.fillna 0
 #dropna
 
-contested_vs_uncontested = specificTXCDs.groupby(['year','district']).size()
+#contested_vs_uncontested = specificTXCDs.groupby(['year','district']).size()
 
-#%%  
-
-contested_vs_uncontested['rep2012'] = specificTXCDs['candidatevotes']/specificTXCDs['totalvotes']*100
+#contested_vs_uncontested['rep2012'] = specificTXCDs['candidatevotes']/specificTXCDs['totalvotes']*100
 #FIX !!
 
 #%%
@@ -65,15 +63,15 @@ contested_vs_uncontested['rep2012'] = specificTXCDs['candidatevotes']/specificTX
 #don't know how to deal with only DEM or only REP candidate available for election
 #do I need to eliminate them from data frame before plotting
 
-rep = pd.DataFrame()
-rep['2012'] = specificTXCDs['candidatevotes']/specificTXCDs['totalvotes']*100
-rep['2014'] = specificTXCDs['candidatevotes']/specificTXCDs['totalvotes']*100
-rep['2016'] = specificTXCDs['candidatevotes']/specificTXCDs['totalvotes']*100
-rep['2018'] = specificTXCDs['candidatevotes']/specificTXCDs['totalvotes']*100
+#rep = pd.DataFrame()
+#rep['2012'] = specificTXCDs['candidatevotes']/specificTXCDs['totalvotes']*100
+#rep['2014'] = specificTXCDs['candidatevotes']/specificTXCDs['totalvotes']*100
+#rep['2016'] = specificTXCDs['candidatevotes']/specificTXCDs['totalvotes']*100
+#rep['2018'] = specificTXCDs['candidatevotes']/specificTXCDs['totalvotes']*100
 
-rep = rep.stack()
-rep = rep.reset_index()
-rep.columns = ['cd','year','%rep']
+#rep = rep.stack()
+#rep = rep.reset_index()
+#rep.columns = ['cd','year','%rep']
 
 #%%
 import matplotlib.pyplot as plt
