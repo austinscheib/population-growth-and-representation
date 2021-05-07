@@ -44,8 +44,7 @@ white = white.stack()
 white = white.reset_index()
 white.columns = ['cd','year','w%']
 
-
-#save to csv
+#save new dataframe with just selected CDs to csv
 
 #CDpercentwhite2012['white2014'] = CDpercentwhite2014['percent_white']
 #CDpercentwhite2012['white2015'] = CDpercentwhite2015['percent_white']
@@ -54,7 +53,7 @@ white.columns = ['cd','year','w%']
 #CDpercentwhite2012['white2018'] = CDpercentwhite2018['percent_white']
 #CDpercentwhite2012['white2019'] = CDpercentwhite2019['percent_white']
 
-#drop other columns? 
+
 #which congressional districts do I want to select?
 
 #%%
@@ -64,8 +63,11 @@ import seaborn as sns
 
 fig, ax = plt.subplots()
 sns.lineplot(x = "year", y = "w%", data=white, hue='cd', ax=ax)
-fig.suptitle("Percent of Population that is White in Texas Congressional Districts from 2012-2019")
+fig.suptitle("Percent of White Individuals in Texas Congressional Districts from 2012-2019")
 ax.set_xlabel("Year")
 ax.set_ylabel("Percent of Population that is White Only")
 fig.tight_layout()
 fig.savefig("CDpercentwhite.png", dpi=300)
+
+#drop legend
+#plot only my selected congressional districts
