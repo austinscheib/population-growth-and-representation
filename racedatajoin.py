@@ -42,10 +42,10 @@ white['2019'] = CDpercentwhite2019['percent_white']
 
 white = white.stack()
 white = white.reset_index()
-white.columns = ['cd','year','w%']
+white.columns = ['district','year','w%']
 
 districts = ['03','26','32','31','35','27','08','18','14']
-in_districts = white['cd'].isin(districts)
+in_districts = white['district'].isin(districts)
 
 white = white[in_districts]
 #put plotting data in separate script
@@ -67,11 +67,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 fig, ax = plt.subplots()
-sns.lineplot(x = "year", y = "w%", data=white, hue='cd', ax=ax)
-fig.suptitle("Percent of White Individuals in Texas Congressional Districts from 2012-2019")
+sns.lineplot(x = "year", y = "w%", data=white, hue='district',ax=ax)
+fig.suptitle("White Percent of Population in TX Congressional Districts, 2012-2019")
 ax.set_xlabel("Year")
-ax.set_ylabel("Percent of Population that is White Only")
+ax.set_ylabel("Percent of White-Only Population")
 #ax.get_legend().remove()
+plt.legend(title='District',loc=[1.1, 0.2])
 fig.tight_layout()
 fig.savefig("CDpercentwhite.png", dpi=300)
 

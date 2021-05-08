@@ -51,9 +51,10 @@ import seaborn as sns
 
 fig, ax = plt.subplots()
 sns.lineplot(x = "year", y = "REPpercent", data=CDrep, hue='district', ax=ax)
-fig.suptitle("Percent of Votes for Republican Congressional Candidates in Texas Congressional Districts from 2012-2018")
+fig.suptitle("Percent of Votes for TX Republican U.S. House Candidates, 2012-2018")
 ax.set_xlabel("Year")
-ax.set_ylabel("Percent of Votes for Republican Congressional Candidates")
+ax.set_ylabel("Percent of Votes for Republican Candidates")
+plt.legend(title='District',loc=[1.1, 0.2])
 fig.tight_layout()
 fig.savefig("CDpercentrepublican.png", dpi=300)
 
@@ -66,21 +67,47 @@ CDrepdemcontested = CDrepcontested.query("DEMpercent != 0")
 #%%
 fig, ax = plt.subplots()
 sns.lineplot(x = "year", y = "REPpercent", data=CDrepdemcontested, hue='district', ax=ax)
-fig.suptitle("Percent of Votes for Texas Republican Congressional Candidates in Contested U.S. House Elections from 2012-2018")
+fig.suptitle("Votes for TX Republican U.S. House Candidates in Contested Elections")
 ax.set_xlabel("Year")
-ax.set_ylabel("Percent of Votes for Republican Congressional Candidates")
+ax.set_ylabel("Percent of Votes for Republican Candidates")
+plt.legend(title='District',loc=[1.1, 0.2])
 fig.tight_layout()
 fig.savefig("CDpercentrepcontested.png", dpi=300)
 
 #%%
 
-#whitereppercent = pd.DataFrame()
-#whitereppercent['2012'] = specificTXCDs['candidatevotes']/specificTXCDs['totalvotes']*100
-#whitereppercent['2014'] = specificTXCDs['candidatevotes']/specificTXCDs['totalvotes']*100
+#Convert dataframes to csv files
 
+from racedatajoin import white
+white.to_csv('white.csv')
+CDrepdemcontested.to_csv('CDrepdemcontested.csv')
 
-#contrib = contrib.merge(po,left_on='year',right_on='district',how='outer',validate='m:1',indicator=True)
-#print(contrib['_merge'].value_counts())
+#fixups = {}
+reppercent = pd.read_csv('CDrepdemcontested.csv')
+whitepercent = pd.read_csv('white.csv')
+
+#  Inner: only records in both
+#
+join = reppercent.merge(whitepercent, 
+                      on=["year","district"],
+                      how='inner', 
+                      validate='1:1', 
+                      indicator=True)
+print(len(join))
+print( '\nInner:\n', join['_merge'].value_counts(), sep='' )
+join.to_csv('join.csv')
+
+#%%
+join['s_district'] = join['district'].astype(str)
+fig, ax = plt.subplots()
+sns.lineplot(x = "w%", y = "REPpercent", data=join, hue='s_district', ax=ax)
+fig.suptitle("Percent White vs % of Votes for TX Republican Candidates, 2012-2018")
+ax.set_xlabel("Percent of Population that is White Only")
+ax.set_ylabel("Percent of Votes for Republican Candidates")
+plt.legend(title='District',loc=[1.1, 0.2])
+fig.tight_layout()
+fig.savefig("whitevsrep.png", dpi=300)
+
 
 #%%
 #margin of victory; build lil dataframe CDrep drop where REP = 0 and where DEM = 0
