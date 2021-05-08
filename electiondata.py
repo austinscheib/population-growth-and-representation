@@ -7,8 +7,12 @@ Created on Thu May  6 19:42:37 2021
 
 import pandas as pd
 
-fix_dtype = {'year':str,'state':str,'district':str,'party':str,'candidatevotes':float,
-            'totalvotes':float}
+fix_dtype = {'year':str,
+             'state':str,
+             'district':str,
+             'party':str,
+             'candidatevotes':float,
+             'totalvotes':float}
 electionresults = pd.read_csv('1976-2018-house3.csv', dtype = fix_dtype)
 
 election12_18 = electionresults.query("year == '2012' or year == '2014' or year == '2016' or year == '2018'")
@@ -17,7 +21,7 @@ TXelections12_18 = election12_18.query("state == 'TEXAS'")
 
 TXelections12_18_DR = TXelections12_18.query("party == 'DEMOCRAT' or party == 'REPUBLICAN'")
 
-districts = ['3','26','33','31','35','27','8','29']
+districts = ['3','26','32','31','35','27','8','18','14']
 in_districts = TXelections12_18_DR['district'].isin(districts)
 
 specificTXCDs = TXelections12_18_DR[in_districts]
@@ -42,6 +46,34 @@ CDrep['DEMpercent'] = 100 * CDrep['DEMOCRAT']/ CDrep['totalvotes']
 CDrep['electedREP'] = CDrep['REPUBLICAN'] > CDrep['DEMOCRAT']
 
 #%%
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+fig, ax = plt.subplots()
+sns.lineplot(x = "year", y = "REPpercent", data=CDrep, hue='district', ax=ax)
+fig.suptitle("Percent of Votes for Republican Congressional Candidates in Texas Congressional Districts from 2012-2018")
+ax.set_xlabel("Year")
+ax.set_ylabel("Percent of Votes for Republican Congressional Candidates")
+fig.tight_layout()
+fig.savefig("CDpercentrepublican.png", dpi=300)
+
+#shorten title or formatted differently and move legend
+
+#%%
+CDrepcontested = CDrep.query("REPpercent != 0")
+CDrepdemcontested = CDrepcontested.query("DEMpercent != 0")
+
+#%%
+fig, ax = plt.subplots()
+sns.lineplot(x = "year", y = "REPpercent", data=CDrepdemcontested, hue='district', ax=ax)
+fig.suptitle("Percent of Votes for Texas Republican Congressional Candidates in Contested U.S. House Elections from 2012-2018")
+ax.set_xlabel("Year")
+ax.set_ylabel("Percent of Votes for Republican Congressional Candidates")
+fig.tight_layout()
+fig.savefig("CDpercentrepcontested.png", dpi=300)
+
+
+
 
 #margin of victory; build lil dataframe CDrep drop where REP = 0 and where DEM = 0
 #CDrep.dropna() ??
@@ -74,17 +106,5 @@ CDrep['electedREP'] = CDrep['REPUBLICAN'] > CDrep['DEMOCRAT']
 #rep.columns = ['cd','year','%rep']
 
 #%%
-import matplotlib.pyplot as plt
-import seaborn as sns
 
-fig, ax = plt.subplots()
-sns.lineplot(x = "year", y = "%rep", data=rep, hue='cd', ax=ax)
-fig.suptitle("Percent of Votes for Republican Congressional Candidates in Texas Congressional Districts from 2012-2018")
-ax.set_xlabel("Year")
-ax.set_ylabel("Percent of Votes for Republican Congressional Candidates")
-fig.tight_layout()
-fig.savefig("CDpercentrepublican.png", dpi=300)
-
-
-#shorten title or get them formatted differently.
 #I don't know what to do after I have both %w and %r plotted

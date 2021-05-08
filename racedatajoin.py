@@ -44,7 +44,7 @@ white = white.stack()
 white = white.reset_index()
 white.columns = ['cd','year','w%']
 
-districts = ['03','26','33','31','35','27','08','29']
+districts = ['03','26','32','31','35','27','08','18','14']
 in_districts = white['cd'].isin(districts)
 
 white = white[in_districts]
