@@ -72,9 +72,17 @@ ax.set_ylabel("Percent of Votes for Republican Congressional Candidates")
 fig.tight_layout()
 fig.savefig("CDpercentrepcontested.png", dpi=300)
 
+#%%
+
+#whitereppercent = pd.DataFrame()
+#whitereppercent['2012'] = specificTXCDs['candidatevotes']/specificTXCDs['totalvotes']*100
+#whitereppercent['2014'] = specificTXCDs['candidatevotes']/specificTXCDs['totalvotes']*100
 
 
+#contrib = contrib.merge(po,left_on='year',right_on='district',how='outer',validate='m:1',indicator=True)
+#print(contrib['_merge'].value_counts())
 
+#%%
 #margin of victory; build lil dataframe CDrep drop where REP = 0 and where DEM = 0
 #CDrep.dropna() ??
 #CDrep query (rep greater than 0 and vice versa)
