@@ -1,12 +1,4 @@
 NAME,C02003_003E,C02003_001E,state,congressional district,num_white,total,percent_white
-"Congressional District 29 (116th Congress), Texas",562701,745389,48,29,562701.0,745389.0,75.49091816487767
-"Congressional District 27 (116th Congress), Texas",631666,737102,48,27,631666.0,737102.0,85.69587384106948
-"Congressional District 14 (116th Congress), Texas",534478,747166,48,14,534478.0,747166.0,71.53403661301505
-"Congressional District 5 (116th Congress), Texas",562253,744338,48,05,562253.0,744338.0,75.53732309783996
-"Congressional District 10 (116th Congress), Texas",609779,839780,48,10,609779.0,839780.0,72.61175545976327
-"Congressional District 35 (116th Congress), Texas",598961,806895,48,35,598961.0,806895.0,74.23035215238662
-"Congressional District 22 (116th Congress), Texas",534058,880197,48,22,534058.0,880197.0,60.6748262036794
-"Congressional District 19 (116th Congress), Texas",598151,725504,48,19,598151.0,725504.0,82.4462718330981
 "Congressional District 28 (116th Congress), Texas",660113,750331,48,28,660113.0,750331.0,87.976239819493
 "Congressional District 1 (116th Congress), Texas",554071,718215,48,01,554071.0,718215.0,77.14556226199676
 "Congressional District 7 (116th Congress), Texas",523618,785024,48,07,523618.0,785024.0,66.70089067340616
@@ -35,3 +27,11 @@ NAME,C02003_003E,C02003_001E,state,congressional district,num_white,total,percen
 "Congressional District 13 (116th Congress), Texas",604490,710847,48,13,604490.0,710847.0,85.03798989093293
 "Congressional District 26 (116th Congress), Texas",662700,848154,48,26,662700.0,848154.0,78.13439540460813
 "Congressional District 9 (116th Congress), Texas",286485,781992,48,09,286485.0,781992.0,36.635285271460575
+"Congressional District 29 (116th Congress), Texas",562701,745389,48,29,562701.0,745389.0,75.49091816487767
+"Congressional District 27 (116th Congress), Texas",631666,737102,48,27,631666.0,737102.0,85.69587384106948
+"Congressional District 14 (116th Congress), Texas",534478,747166,48,14,534478.0,747166.0,71.53403661301505
+"Congressional District 5 (116th Congress), Texas",562253,744338,48,05,562253.0,744338.0,75.53732309783996
+"Congressional District 10 (116th Congress), Texas",609779,839780,48,10,609779.0,839780.0,72.61175545976327
+"Congressional District 35 (116th Congress), Texas",598961,806895,48,35,598961.0,806895.0,74.23035215238662
+"Congressional District 22 (116th Congress), Texas",534058,880197,48,22,534058.0,880197.0,60.6748262036794
+"Congressional District 19 (116th Congress), Texas",598151,725504,48,19,598151.0,725504.0,82.4462718330981

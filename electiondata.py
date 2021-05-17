@@ -5,6 +5,9 @@ Created on Thu May  6 19:42:37 2021
 @author: austi
 """
 
+# Import 1976 to 2018 U.S. House election data from MIT Election Data and 
+# Science Lab
+
 import pandas as pd
 
 fix_dtype = {'year':str,
@@ -14,6 +17,8 @@ fix_dtype = {'year':str,
              'candidatevotes':float,
              'totalvotes':float}
 electionresults = pd.read_csv('1976-2018-house3.csv', dtype = fix_dtype)
+
+# Query the data to get 
 
 election12_18 = electionresults.query("year == '2012' or year == '2014' or year == '2016' or year == '2018'")
 
@@ -46,6 +51,9 @@ CDrep['DEMpercent'] = 100 * CDrep['DEMOCRAT']/ CDrep['totalvotes']
 CDrep['electedREP'] = CDrep['REPUBLICAN'] > CDrep['DEMOCRAT']
 
 #%%
+
+# Create figure
+
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -61,10 +69,19 @@ fig.savefig("CDpercentrepublican.png", dpi=300)
 #shorten title or formatted differently and move legend
 
 #%%
+
+# Query CDrep dataframe to filter out uncontested elections (where the 
+# percentage of votes for Democratic or Republican candidates equalled zero)
+
 CDrepcontested = CDrep.query("REPpercent != 0")
 CDrepdemcontested = CDrepcontested.query("DEMpercent != 0")
 
 #%%
+
+# Create figure plotting the percent of the vote for Republican candidates in 
+# only contested elections (where both Democratic and Republican candidates
+# ran for public office)
+
 fig, ax = plt.subplots()
 sns.lineplot(x = "year", y = "REPpercent", data=CDrepdemcontested, hue='district', ax=ax)
 fig.suptitle("Votes for TX Republican U.S. House Candidates in Contested Elections")
@@ -76,18 +93,17 @@ fig.savefig("CDpercentrepcontested.png", dpi=300)
 
 #%%
 
-#Convert dataframes to csv files
+# Convert dataframes to csv files and read them into new variables
 
 from racedatajoin import white
 white.to_csv('white.csv')
 CDrepdemcontested.to_csv('CDrepdemcontested.csv')
 
-#fixups = {}
 reppercent = pd.read_csv('CDrepdemcontested.csv')
 whitepercent = pd.read_csv('white.csv')
 
-#  Inner: only records in both
-#
+#  Inner join whitepercent onto reppercent to get only records in both
+
 join = reppercent.merge(whitepercent, 
                       on=["year","district"],
                       how='inner', 
@@ -98,6 +114,9 @@ print( '\nInner:\n', join['_merge'].value_counts(), sep='' )
 join.to_csv('join.csv')
 
 #%%
+
+#
+
 join['s_district'] = join['district'].astype(str)
 fig, ax = plt.subplots()
 sns.lineplot(x = "w%", y = "REPpercent", data=join, hue='s_district', ax=ax)
@@ -108,9 +127,35 @@ plt.legend(title='District',loc=[1.1, 0.2])
 fig.tight_layout()
 fig.savefig("whitevsrep.png", dpi=300)
 
+#%%
+
+# Create new column in join dataframe for margins of victory
+
+join['MoV'] = join['REPpercent'] - join['DEMpercent']
+#%%
+fig, ax = plt.subplots()
+sns.lineplot(x = "year", y = "MoV", data=join, hue='s_district', ax=ax)
+fig.suptitle("Margins of Victory in Texas Congressional Districts, 2012-2018")
+ax.set_xlabel("Year of Election")
+ax.set_ylabel("Margin of Victory")
+plt.legend(title='District',loc=[1.1, 0.2])
+fig.tight_layout()
+fig.savefig("marginsofvictory.png", dpi=300)
+
+#%%
+
+# Query to get only districts where Republicans won
+
+#republicanwon = join.query("REPpercent != 0")
+
+
 
 #%%
 #margin of victory; build lil dataframe CDrep drop where REP = 0 and where DEM = 0
+
+
+
+
 #CDrep.dropna() ??
 #CDrep query (rep greater than 0 and vice versa)
 
