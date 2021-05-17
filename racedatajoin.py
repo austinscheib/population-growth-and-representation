@@ -90,7 +90,7 @@ import seaborn as sns
 # changes in the percent of the white population in each of the selected 
 # Texas congressional districts from 2012 to 2019. The x-axis represents the 
 # year and the y-axis represents the percent of the white-only population.
-# The legend indicates the districts that corresond to each of the nine
+# The legend indicates the districts that correspond to each of the nine
 # plotted lines. Save the figure as 'CDpercentwhite.png'.
 
 fig, ax = plt.subplots()
