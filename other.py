@@ -7,6 +7,9 @@ Created on Thu May  6 15:13:49 2021
 #%%
 #specificTXCDs.set_index('district', inplace=True) ??
 
+#ax.get_legend().remove()
+
+
 #%%
 cd = {'congressional district':str}
 race12 = pd.read_csv("percent_whiteCDs12.csv",dtype=cd)
