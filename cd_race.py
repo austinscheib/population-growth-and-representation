@@ -19,7 +19,7 @@ api = 'https://api.census.gov/data/2012/acs/acs5'
 
 for_clause = 'congressional district:*'
 
-# Set the variable in_clause to 'state:48' since Texas is state 48.
+# Set the variable in_clause to 'state:48' since Texas' FIPS code is 48.
 
 in_clause = 'state:48' 
 

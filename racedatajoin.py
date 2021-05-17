@@ -68,7 +68,8 @@ white = white.stack()
 white = white.reset_index()
 white.columns = ['district','year','w%']
 
-# Select specific congressional districts to analyze.
+# Select specific congressional districts to analyze. Be careful with zeros 
+# before single-digit districts.
 
 districts = ['03','26','32','31','35','27','08','18','14']
 in_districts = white['district'].isin(districts)
